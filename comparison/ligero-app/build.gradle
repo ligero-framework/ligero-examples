@@ -1,0 +1,24 @@
+plugins {
+    id 'application'
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_21
+    targetCompatibility = JavaVersion.VERSION_21
+}
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+}
+
+application {
+    mainClass = 'bench.App'
+}
+
+dependencies {
+    implementation 'com.ligero:ligero-core:0.2.0-SNAPSHOT'
+    runtimeOnly 'com.ligero:ligero-server-jdk:0.2.0-SNAPSHOT'
+    runtimeOnly 'com.ligero:ligero-json:0.2.0-SNAPSHOT'
+    runtimeOnly 'org.slf4j:slf4j-simple:2.0.16'
+}
