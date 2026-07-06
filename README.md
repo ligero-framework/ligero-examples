@@ -10,6 +10,7 @@ time (`... started in N ms`) so you can measure it yourself.
 | Example | Port | Shows |
 |---|---|---|
 | [`layered-api`](layered-api) | 8080 | **Spring-Boot-style layers**: `controller/` → `service/` → `repository/` + `domain/`. Constructor injection resolved in a composition root; swap `InMemoryProductRepository` ↔ `JdbcProductRepository` (PostgreSQL) with the `DB_URL` env var. Includes Docker Compose with PostgreSQL + seed data. |
+| [`layered-beans`](layered-beans) | 8080 | **The same layered app, modular**: a `ProductsModule` (`LigeroModule`) declares the beans and routes of the feature — wiring lives in the module, never in `Application`. Uses the `Beans` container (fail-fast at startup) and mounts **devtools** at `/ligero/dev`: bean graph by stereotype + live per-request traces through the layers. |
 | [`hexagonal-todo`](hexagonal-todo) | 8081 | **Hexagonal (ports & adapters)**: pure `domain/` (model + ports), `application/` use cases, `adapter/in/http` and `adapter/out/persistence`, wired in `bootstrap/Main`. |
 | [`web-templates`](web-templates) | 8082 | **Server-side web app**: Pebble templates with layout inheritance, classic form POST → 303 redirect, static assets from the classpath. |
 
@@ -33,15 +34,22 @@ profiles, or against any other framework, by reading that line.
 
 ## How dependency injection works here
 
-Ligero has **no DI container by design**. Dependencies are:
+Two styles, from simplest to recommended:
 
-1. **Constructor injection, wired in a composition root** (`Application.create()` /
-   `bootstrap/Main`): the object graph is ~10 explicit lines the compiler verifies.
-2. **`app.register(Type.class, impl)` / `ctx.get(Type.class)`** for services that
-   middleware or standalone handlers need at request time.
+1. **Manual composition root** (`layered-api`, `hexagonal-todo`): constructor
+   injection wired by hand in ~10 explicit lines the compiler verifies. Zero
+   framework involvement — always an option.
+2. **`Beans` container + modules** (`layered-beans`, the recommended style):
+   each feature is a `LigeroModule` declaring its bindings (lambdas — still
+   compiler-checked, zero reflection) and its routes. `Modules.install(...)`
+   assembles one container from all modules, **fails fast at startup** if a
+   binding is missing or cyclic, and exposes everything via `ctx.get(...)`.
+   Stereotypes (`@Controller/@Service/@Repository`) are pure metadata that
+   power the devtools dashboard.
 
-Both are shown in `layered-api`; the hexagonal example shows how ports keep the
-domain free of any framework import.
+Run `layered-beans` and open <http://localhost:8080/ligero/dev> to *see* the
+dependency graph and watch each request traverse controller → service →
+repository with arguments, results and timings.
 
 ## License
 

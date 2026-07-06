@@ -1,0 +1,9 @@
+application {
+    mainClass = 'com.example.layeredbeans.Application'
+}
+
+dependencies {
+    // Debugger visual en /ligero/dev — solo desarrollo; quitar en producción.
+    implementation 'com.ligero:ligero-devtools:0.2.0-SNAPSHOT'
+    implementation 'org.postgresql:postgresql:42.7.4'
+}
