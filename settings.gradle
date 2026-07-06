@@ -1,0 +1,4 @@
+rootProject.name = 'ligero-examples'
+include 'layered-api'     // capas estilo Spring Boot: controller / service / repository
+include 'hexagonal-todo'  // puertos y adaptadores (arquitectura hexagonal)
+include 'web-templates'   // app web server-side con templates Pebble

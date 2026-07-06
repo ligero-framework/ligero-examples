@@ -1,0 +1,16 @@
+{% extends "templates/layout.peb" %}
+{% block title %}Visitas{% endblock %}
+{% block content %}
+<form method="post" action="/sign">
+  <input name="name" placeholder="Tu nombre" required>
+  <input name="message" placeholder="Mensaje" required>
+  <button type="submit">Firmar</button>
+</form>
+<ul>
+{% for entry in entries %}
+  <li><strong>{{ entry.name }}</strong>: {{ entry.message }}</li>
+{% else %}
+  <li>Sin firmas todavía.</li>
+{% endfor %}
+</ul>
+{% endblock %}

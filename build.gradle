@@ -1,0 +1,34 @@
+// Config común de los ejemplos. Los artefactos ligero-* se resuelven de
+// mavenLocal hasta la publicación en Maven Central:
+//   (en el repo del framework) ./gradlew publishToMavenLocal
+subprojects {
+    apply plugin: 'application'
+
+    group = 'com.ligero.examples'
+    version = '0.1.0'
+
+    java {
+        sourceCompatibility = JavaVersion.VERSION_21
+        targetCompatibility = JavaVersion.VERSION_21
+    }
+
+    repositories {
+        mavenLocal()
+        mavenCentral()
+    }
+
+    dependencies {
+        implementation 'com.ligero:ligero-core:0.2.0-SNAPSHOT'
+        runtimeOnly 'com.ligero:ligero-server-jdk:0.2.0-SNAPSHOT'
+        runtimeOnly 'com.ligero:ligero-json:0.2.0-SNAPSHOT'
+        runtimeOnly 'org.slf4j:slf4j-simple:2.0.16'
+
+        testImplementation 'com.ligero:ligero-test:0.2.0-SNAPSHOT'
+        testImplementation 'org.junit.jupiter:junit-jupiter:5.11.4'
+        testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    }
+
+    test {
+        useJUnitPlatform()
+    }
+}

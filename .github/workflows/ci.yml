@@ -1,0 +1,27 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      # Los ejemplos consumen ligero-* desde mavenLocal: se publica el framework primero
+      - uses: actions/checkout@v4
+        with:
+          repository: ligero-framework/ligero
+          path: framework
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - uses: gradle/actions/setup-gradle@v4
+      - run: cd framework && ./gradlew publishToMavenLocal --no-daemon
+      - run: gradle build --no-daemon

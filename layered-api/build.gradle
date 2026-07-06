@@ -1,0 +1,7 @@
+application {
+    mainClass = 'com.example.layered.Application'
+}
+
+dependencies {
+    implementation 'org.postgresql:postgresql:42.7.4'
+}

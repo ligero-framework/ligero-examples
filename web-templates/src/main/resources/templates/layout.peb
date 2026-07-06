@@ -1,0 +1,9 @@
+<!DOCTYPE html>
+<html lang="es">
+<head><meta charset="utf-8"><title>{% block title %}Ligero{% endblock %}</title>
+<link rel="stylesheet" href="/static/site.css"></head>
+<body>
+<h1>Libro de visitas</h1>
+{% block content %}{% endblock %}
+</body>
+</html>

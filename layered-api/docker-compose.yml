@@ -1,0 +1,30 @@
+# docker compose up --build
+# El log de la app imprime "layered-api started in N ms" para medir arranque.
+services:
+  app:
+    build:
+      context: ..
+      dockerfile: layered-api/Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      DB_URL: jdbc:postgresql://db:5432/app
+      DB_USER: app
+      DB_PASSWORD: app
+    depends_on:
+      db:
+        condition: service_healthy
+
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: app
+      POSTGRES_USER: app
+      POSTGRES_PASSWORD: app
+    volumes:
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U app -d app"]
+      interval: 3s
+      timeout: 3s
+      retries: 10
