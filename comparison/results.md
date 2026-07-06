@@ -35,5 +35,20 @@ no JVM tuning). Measured on this machine:
   warmup before load. Numbers vary run to run and machine to machine —
   reproduce them yourself.
 
+## Verdict — which should you pick?
+
+No single winner; it depends on what you optimize for:
+
+- **Best balance** → **Ligero on the Jetty engine**: ~Javalin throughput, the
+  smallest deps of the fast options, plus DI, modules and devtools.
+- **Fastest startup & smallest footprint** → **Ligero on the JDK engine**.
+- **Maximum raw throughput** → **Javalin** (Ligero-on-Jetty is within variance).
+- **Biggest ecosystem** → **Spring Boot** (not what this measures; slowest to
+  start and heaviest here).
+
+In one line: *Ligero gives a micro-framework's startup and footprint, and —
+with a one-line engine swap — Javalin-class throughput, while bringing DI,
+modules and devtools the micro-frameworks don't.*
+
 > Reproduce: `cd comparison && ./run.sh` (needs Ligero in mavenLocal:
 > `./gradlew publishToMavenLocal` in the framework repo).
