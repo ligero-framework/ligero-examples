@@ -1,4 +1,6 @@
-# Ligero Examples
+<p align="center">
+  <img src="logo.svg" alt="Ligero Examples" width="360">
+</p>
 
 Complete example applications for the [Ligero framework](https://github.com/ligero-framework/ligero),
 each showing a different architecture style. All of them print their startup
