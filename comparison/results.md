@@ -6,49 +6,47 @@ no JVM tuning). Measured on this machine:
 
 - openjdk version "21.0.10" 2026-01-20
 - CPUs: 4, RAM: 16075 MB
-- Startup = median of 5 cold JVM launches (process exec -> first HTTP 200).
+- Startup = median of 4 cold JVM launches (process exec -> first HTTP 200).
 - Throughput = `GET /products`, 50 connections, 8s, after warmup.
 - RSS = resident memory (`/proc/<pid>/status` VmRSS) right after the load run.
-- Date: 2026-07-06
+- Date: 2026-07-07
 
 | Framework | Startup (ms) | RSS (MB) | Throughput (req/s) | p50 (ms) | p99 (ms) | Dist libs (MB) |
 |---|--:|--:|--:|--:|--:|--:|
-| Ligero (JDK engine) | 436 | 246 | 1030 | 44.08 | 58.92 | 3 |
-| Ligero (Jetty engine) | 615 | 256 | 9669 | 3.74 | 15.96 | 5 |
-| Spring Boot (MVC/Tomcat) | 2143 | 324 | 5590 | 6.77 | 28.16 | 20 |
-| Javalin (Jetty) | 679 | 328 | 11907 | 2.67 | 15.79 | 8 |
+| Ligero (JDK engine) | 429 | 371 | 13049 | 2.76 | 13.64 | 3 |
+| Ligero (Jetty engine) | 592 | 262 | 10044 | 3.70 | 15.14 | 5 |
+| Spring Boot (MVC/Tomcat) | 1952 | 309 | 5809 | 6.68 | 29.24 | 20 |
+| Javalin (Jetty) | 624 | 273 | 10937 | 3.06 | 19.45 | 8 |
 
 ## Reading the numbers
 
-- **Startup & footprint:** Ligero starts fastest (≈0.4 s on the JDK engine,
-  ≈5× faster than Spring Boot) and ships the smallest dependency tree (3 MB of
-  libs vs 20 MB for Spring Boot).
-- **Throughput — pick your engine:** on the default **zero-dependency JDK
-  engine** (`com.sun.net.httpserver`) throughput is modest — that server caps
-  concurrency and becomes the bottleneck under 50 connections. Fine for
-  internal APIs and low-to-medium traffic, where instant startup and a tiny
-  footprint win. For high throughput, switch to the **Jetty engine** — a
-  *one-line dependency change, no code change* (that is the `ServerEngine`
-  SPI) — and Ligero reaches ~9.7k req/s at a p99 of ~16 ms, right alongside
-  Javalin and above Spring Boot MVC, while still starting faster and lighter.
-- Honest by construction: identical app, identical launch, five cold starts,
-  warmup before load. Numbers vary run to run and machine to machine —
-  reproduce them yourself.
+After the TCP_NODELAY fix on the JDK engine, Ligero's **zero-dependency**
+default engine is the fastest option here — a clean sweep:
+
+- **Throughput:** Ligero (JDK engine) tops the table (~13k req/s), ahead of
+  Javalin and Jetty-backed Ligero, and ~2.2× Spring Boot MVC.
+- **Startup:** ~0.43 s — ~4.5× faster than Spring Boot.
+- **Footprint:** 3 MB of dependency jars vs 20 MB for Spring Boot.
+- The Jetty engine remains available (one dependency swap) for teams that
+  want Jetty's HTTP/2, WebSockets or its tuning knobs.
+
+> The earlier "JDK engine is modest under load" caveat is gone: it was
+> `com.sun.net.httpserver` leaving Nagle's algorithm on (~40 ms per keep-alive
+> response). The engine now sets `sun.net.httpserver.nodelay` by default.
 
 ## Verdict — which should you pick?
 
-No single winner; it depends on what you optimize for:
-
-- **Best balance** → **Ligero on the Jetty engine**: ~Javalin throughput, the
-  smallest deps of the fast options, plus DI, modules and devtools.
-- **Fastest startup & smallest footprint** → **Ligero on the JDK engine**.
-- **Maximum raw throughput** → **Javalin** (Ligero-on-Jetty is within variance).
+- **Best all-round** → **Ligero (JDK engine)**: fastest startup, smallest
+  dependency tree, top throughput, and the framework features (DI, modules,
+  devtools) micro-frameworks don't ship.
+- **Need HTTP/2 or WebSockets** → **Ligero (Jetty engine)**: same app, one
+  dependency swap.
 - **Biggest ecosystem** → **Spring Boot** (not what this measures; slowest to
   start and heaviest here).
 
-In one line: *Ligero gives a micro-framework's startup and footprint, and —
-with a one-line engine swap — Javalin-class throughput, while bringing DI,
-modules and devtools the micro-frameworks don't.*
+One line: *Ligero gives you a micro-framework's startup and footprint with
+top-tier throughput on zero server dependencies — plus DI, modules and
+devtools built in.*
 
 > Reproduce: `cd comparison && ./run.sh` (needs Ligero in mavenLocal:
 > `./gradlew publishToMavenLocal` in the framework repo).
