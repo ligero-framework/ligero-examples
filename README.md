@@ -13,6 +13,7 @@ time (`... started in N ms`) so you can measure it yourself.
 | [`layered-beans`](layered-beans) | 8080 | **The same layered app, modular**: a `ProductsModule` (`LigeroModule`) declares the beans and routes of the feature — wiring lives in the module, never in `Application`. Uses the `Beans` container (fail-fast at startup) and mounts **devtools** at `/ligero/dev`: bean graph by stereotype + live per-request traces through the layers. |
 | [`hexagonal-todo`](hexagonal-todo) | 8081 | **Hexagonal (ports & adapters)**: pure `domain/` (model + ports), `application/` use cases, `adapter/in/http` and `adapter/out/persistence`, wired in `bootstrap/Main`. |
 | [`web-templates`](web-templates) | 8082 | **Server-side web app**: Pebble templates with layout inheritance, classic form POST → 303 redirect, static assets from the classpath. |
+| [`jpa-todo`](jpa-todo) | 8080 | **JPA / Hibernate on H2**: a `Todo` entity, a `JpaTodoRepository` using the `ligero-jpa` helper (`jpa.tx(...)` / `jpa.read(...)`), layered service/controller wired in a `TodosModule`, full CRUD. Bring-your-own provider (Hibernate) + driver (H2). |
 
 ## Run
 

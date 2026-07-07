@@ -1,0 +1,12 @@
+application {
+    mainClass = 'com.example.jpatodo.Application'
+}
+
+dependencies {
+    implementation 'com.ligero:ligero-jpa:0.2.0-SNAPSHOT'
+    implementation 'com.ligero:ligero-devtools:0.2.0-SNAPSHOT'
+
+    // JPA provider + JDBC driver (you bring these; ligero-jpa only needs the API)
+    runtimeOnly 'org.hibernate.orm:hibernate-core:6.6.4.Final'
+    runtimeOnly 'com.h2database:h2:2.3.232'
+}
