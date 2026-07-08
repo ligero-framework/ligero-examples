@@ -16,6 +16,8 @@ time (`... started in N ms`) so you can measure it yourself.
 | [`hexagonal-todo`](hexagonal-todo) | 8081 | **Hexagonal (ports & adapters)**: pure `domain/` (model + ports), `application/` use cases, `adapter/in/http` and `adapter/out/persistence`, wired in `bootstrap/Main`. |
 | [`web-templates`](web-templates) | 8082 | **Server-side web app**: Pebble templates with layout inheritance, classic form POST → 303 redirect, static assets from the classpath. |
 | [`jpa-todo`](jpa-todo) | 8080 | **JPA / Hibernate on H2**: a `Todo` entity, a `JpaTodoRepository` using the `ligero-jpa` helper (`jpa.tx(...)` / `jpa.read(...)`), layered service/controller wired in a `TodosModule`, full CRUD. Bring-your-own provider (Hibernate) + driver (H2). |
+| [`config-profiles`](config-profiles) | 8080/8081 | **Config with YAML + profiles** (`ligero-config-yaml`): `server.port` from `ligero.yml`, app settings via `Config`, `${ENV:-default}` interpolation, and a `dev` overlay. Run `LIGERO_PROFILE=dev` to switch. |
+| [`redis-scale`](redis-scale) | 8080 | **Distributed rate-limit + sessions** (`ligero-redis`): a Redis-backed rate limiter (5 / 10 s per IP) and Redis sessions shared across instances. `docker compose up` runs two app copies behind one Redis. |
 
 ## Run
 
