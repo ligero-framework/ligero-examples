@@ -1,0 +1,12 @@
+# Base configuration. Framework reads server.*; the app reads the rest.
+server:
+  port: 8080
+  gzip: true
+
+app:
+  name: config-demo
+  greeting: Hello from the base profile
+
+db:
+  url: ${DB_URL:-jdbc:postgresql://localhost:5432/app}
+  pool: 10
