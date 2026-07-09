@@ -6,6 +6,8 @@ Complete example applications for the [Ligero framework](https://github.com/lige
 each showing a different architecture style. All of them print their startup
 time (`... started in N ms`) so you can measure it yourself.
 
+📖 **Docs:** [ligero-framework.github.io/ligero-docs](https://ligero-framework.github.io/ligero-docs/) — start with the [Learning Path](https://ligero-framework.github.io/ligero-docs/learning-path).
+
 > **Setup:** until Ligero is on Maven Central, publish it locally first:
 > `git clone https://github.com/ligero-framework/ligero && cd ligero && ./gradlew publishToMavenLocal`
 
