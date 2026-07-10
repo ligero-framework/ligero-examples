@@ -3,6 +3,6 @@ application {
 }
 
 dependencies {
-    implementation 'com.ligero:ligero-redis:0.2.0-SNAPSHOT'   // brings ligero-auth transitively
+    implementation 'com.ligeroframework:ligero-redis:0.5.0'   // brings ligero-auth transitively
     implementation 'redis.clients:jedis:5.2.0'                 // to build the JedisPool
 }
