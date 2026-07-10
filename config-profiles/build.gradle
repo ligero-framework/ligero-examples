@@ -3,5 +3,5 @@ application {
 }
 
 dependencies {
-    implementation 'com.ligero:ligero-config-yaml:0.2.0-SNAPSHOT'
+    implementation 'com.ligeroframework:ligero-config-yaml:0.5.0'
 }

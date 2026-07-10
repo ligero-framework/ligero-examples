@@ -3,5 +3,5 @@ application {
 }
 
 dependencies {
-    runtimeOnly 'com.ligero:ligero-template-pebble:0.2.0-SNAPSHOT'
+    runtimeOnly 'com.ligeroframework:ligero-template-pebble:0.5.0'
 }
