@@ -6,3 +6,4 @@ include 'web-templates'   // app web server-side con templates Pebble
 include 'jpa-todo'        // JPA/Hibernate con ligero-jpa sobre H2
 include 'config-profiles'  // config con YAML + perfiles (ligero-config-yaml)
 include 'redis-scale'      // rate-limit y sesiones distribuidos (ligero-redis)
+include 'commerce-devtools' // devtools on a rich multi-feature dependency graph
