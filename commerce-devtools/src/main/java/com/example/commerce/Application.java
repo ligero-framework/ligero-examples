@@ -24,10 +24,10 @@ public final class Application {
 
     public static void main(String[] args) throws Exception {
         Ligero app = create();
+        // Ligero logs the startup line and devtools its /ligero/dev mount,
+        // so main() stays free of println boilerplate.
         app.start();
         Runtime.getRuntime().addShutdownHook(new Thread(app::stop));
-        System.out.println("commerce-devtools -> http://localhost:" + app.port());
-        System.out.println("devtools          -> http://localhost:" + app.port() + "/ligero/dev");
     }
 
     public static Ligero create() {
