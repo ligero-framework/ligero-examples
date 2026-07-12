@@ -11,6 +11,18 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
+    # A Redis service so the redis-scale example's rate-limit/session test runs
+    # for real instead of being skipped.
+    services:
+      redis:
+        image: redis:7
+        ports:
+          - 6379:6379
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
     steps:
       - uses: actions/checkout@v4
       # Los ejemplos consumen ligero-* desde mavenLocal: se publica el framework primero
