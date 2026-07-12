@@ -18,12 +18,12 @@ subprojects {
     }
 
     dependencies {
-        implementation 'com.ligeroframework:ligero-core:0.5.0'
-        runtimeOnly 'com.ligeroframework:ligero-server-jdk:0.5.0'
-        runtimeOnly 'com.ligeroframework:ligero-json:0.5.0'
+        implementation 'com.ligeroframework:ligero-core:0.6.0'
+        runtimeOnly 'com.ligeroframework:ligero-server-jdk:0.6.0'
+        runtimeOnly 'com.ligeroframework:ligero-json:0.6.0'
         runtimeOnly 'org.slf4j:slf4j-simple:2.0.16'
 
-        testImplementation 'com.ligeroframework:ligero-test:0.5.0'
+        testImplementation 'com.ligeroframework:ligero-test:0.6.0'
         testImplementation 'org.junit.jupiter:junit-jupiter:5.11.4'
         testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
     }

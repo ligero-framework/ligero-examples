@@ -1,0 +1,8 @@
+application {
+    mainClass = 'com.example.commerce.Application'
+}
+
+dependencies {
+    // Visual debugger at /ligero/dev — development only, drop it for production.
+    implementation 'com.ligeroframework:ligero-devtools:0.6.0'
+}
