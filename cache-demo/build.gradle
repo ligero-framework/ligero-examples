@@ -1,0 +1,14 @@
+plugins { id 'application' }
+
+repositories { mavenCentral() }
+
+dependencies {
+    implementation 'com.ligeroframework:ligero-core:0.7.0'
+    implementation 'com.ligeroframework:ligero-server-jdk:0.7.0'
+    implementation 'com.ligeroframework:ligero-json:0.7.0'
+    runtimeOnly 'org.slf4j:slf4j-simple:2.0.16'
+}
+
+java { toolchain { languageVersion = JavaLanguageVersion.of(21) } }
+
+application { mainClass = 'com.example.cache.CacheDemoApp' }

@@ -1,0 +1,16 @@
+plugins { id 'application' }
+
+repositories { mavenCentral() }
+
+dependencies {
+    implementation 'com.ligeroframework:ligero-core:0.7.0'
+    implementation 'com.ligeroframework:ligero-server-jdk:0.7.0'
+    implementation 'com.ligeroframework:ligero-json:0.7.0'
+    implementation 'com.ligeroframework:ligero-jdbc:0.7.0'
+    runtimeOnly 'com.h2database:h2:2.3.232'
+    runtimeOnly 'org.slf4j:slf4j-simple:2.0.16'
+}
+
+java { toolchain { languageVersion = JavaLanguageVersion.of(21) } }
+
+application { mainClass = 'com.example.jdbcpool.JdbcPoolDemoApp' }
