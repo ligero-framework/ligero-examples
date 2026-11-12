@@ -1,4 +1,6 @@
-# docker compose up --build
+# One-time setup — the secret that signs session cookies, kept out of git:
+#   echo "SESSION_SECRET=$(openssl rand -hex 32)" > .env
+#   docker compose up --build
 # Two app instances behind the same Redis — rate limits and sessions are shared.
 services:
   app1:
@@ -9,6 +11,8 @@ services:
       - "8080:8080"
     environment:
       REDIS_HOST: redis
+      # Signs the session cookies; both instances must share it.
+      SESSION_SECRET: ${SESSION_SECRET:?create redis-scale/.env first - see the comment at the top of docker-compose.yml}
     depends_on:
       redis:
         condition: service_healthy
@@ -21,6 +25,8 @@ services:
       - "8081:8080"
     environment:
       REDIS_HOST: redis
+      # Signs the session cookies; both instances must share it.
+      SESSION_SECRET: ${SESSION_SECRET:?create redis-scale/.env first - see the comment at the top of docker-compose.yml}
     depends_on:
       redis:
         condition: service_healthy
@@ -28,7 +34,8 @@ services:
   redis:
     image: redis:7-alpine
     ports:
-      - "6379:6379"
+      # loopback only: this Redis has no password
+      - "127.0.0.1:6379:6379"
     healthcheck:
       test: ["CMD", "redis-cli", "ping"]
       interval: 2s
