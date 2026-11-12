@@ -2,3 +2,6 @@ build/
 .gradle/
 *.class
 .idea/
+
+# local secrets for docker compose
+.env
