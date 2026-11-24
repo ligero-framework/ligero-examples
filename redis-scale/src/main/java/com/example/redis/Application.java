@@ -35,6 +35,25 @@ public final class Application {
         System.out.println("redis-scale running -> http://localhost:" + app.port() + " (redis " + redisHost + ":" + redisPort + ")");
     }
 
+    /**
+     * The key that signs session cookies. It must be secret and identical on
+     * every instance, so it comes from the environment — never from source
+     * code: with a well-known default anyone could forge a session cookie.
+     * Without SESSION_SECRET a random one is generated, which is fine for a
+     * single local instance (sessions simply do not survive a restart).
+     */
+    static String sessionSecret() {
+        String configured = System.getenv("SESSION_SECRET");
+        if (configured != null && !configured.isBlank()) {
+            return configured;
+        }
+        byte[] random = new byte[32];
+        new java.security.SecureRandom().nextBytes(random);
+        System.err.println("SESSION_SECRET is not set: using a random per-process secret. "
+            + "Set it (same value on every instance) to share sessions across instances.");
+        return java.util.HexFormat.of().formatHex(random);
+    }
+
     public static Ligero create(JedisPool pool) {
         Ligero app = Ligero.create(8080);
         app.use(new RequestLoggingMiddleware());
@@ -45,8 +64,7 @@ public final class Application {
             ctx -> ctx.remoteAddress()));
 
         // Cluster-wide sessions (shared across instances, survive restarts).
-        String secret = System.getenv().getOrDefault("SESSION_SECRET", "change-me-change-me-change-me-32b");
-        app.use(SessionMiddleware.of(secret, RedisSessionStore.usingJedis(pool, Duration.ofHours(1))));
+        app.use(SessionMiddleware.of(sessionSecret(), RedisSessionStore.usingJedis(pool, Duration.ofHours(1))));
 
         // A visit counter kept in the session — proves sessions are shared.
         app.get("/visits", ctx -> {

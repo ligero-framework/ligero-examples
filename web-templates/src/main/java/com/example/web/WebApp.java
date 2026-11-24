@@ -18,6 +18,13 @@ public final class WebApp {
     }
 
     private static final List<Entry> ENTRIES = new CopyOnWriteArrayList<>();
+    private static final int MAX_ENTRIES = 200;
+    private static final int MAX_NAME = 60;
+    private static final int MAX_MESSAGE = 500;
+
+    private static String truncate(String value, int max) {
+        return value.length() <= max ? value : value.substring(0, max);
+    }
 
     public static void main(String[] args) throws Exception {
         long startNanos = System.nanoTime();
@@ -41,7 +48,11 @@ public final class WebApp {
             String name = ctx.formParam("name");
             String message = ctx.formParam("message");
             if (name != null && !name.isBlank() && message != null && !message.isBlank()) {
-                ENTRIES.add(new Entry(name.strip(), message.strip()));
+                // Bound what anonymous visitors can store: field lengths and total entries.
+                ENTRIES.add(new Entry(truncate(name.strip(), MAX_NAME), truncate(message.strip(), MAX_MESSAGE)));
+                while (ENTRIES.size() > MAX_ENTRIES) {
+                    ENTRIES.remove(0);
+                }
             }
             ctx.redirect("/", 303); // Post/Redirect/Get
         });

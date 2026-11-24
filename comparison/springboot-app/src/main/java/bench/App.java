@@ -39,7 +39,7 @@ public class App {
     }
 
     @GetMapping("/products/{id}")
-    public ResponseEntity<Product> get(@PathVariable long id) {
+    public ResponseEntity<Product> get(@PathVariable("id") long id) {
         Product product = store.get(id);
         return product == null ? ResponseEntity.notFound().build() : ResponseEntity.ok(product);
     }
