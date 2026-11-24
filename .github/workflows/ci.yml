@@ -24,9 +24,9 @@ jobs:
           --health-timeout 5s
           --health-retries 5
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       # Los ejemplos consumen ligero-* desde mavenLocal: se publica el framework primero
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           repository: ligero-framework/ligero
           path: framework
