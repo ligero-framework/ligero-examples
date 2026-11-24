@@ -24,16 +24,16 @@ jobs:
           --health-timeout 5s
           --health-retries 5
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       # Los ejemplos consumen ligero-* desde mavenLocal: se publica el framework primero
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           repository: ligero-framework/ligero
           path: framework
-      - uses: actions/setup-java@v4
+      - uses: actions/setup-java@v6
         with:
           distribution: temurin
           java-version: '21'
-      - uses: gradle/actions/setup-gradle@v4
+      - uses: gradle/actions/setup-gradle@v6
       - run: cd framework && ./gradlew publishToMavenLocal --no-daemon
       - run: gradle build --no-daemon
