@@ -17,8 +17,8 @@ application {
 }
 
 dependencies {
-    implementation 'com.ligeroframework:ligero-core:0.5.0'
-    runtimeOnly 'com.ligeroframework:ligero-server-jdk:0.5.0'
-    runtimeOnly 'com.ligeroframework:ligero-json:0.5.0'
+    implementation 'com.ligeroframework:ligero-core:0.8.0'
+    runtimeOnly 'com.ligeroframework:ligero-server-jdk:0.8.0'
+    runtimeOnly 'com.ligeroframework:ligero-json:0.8.0'
     runtimeOnly 'org.slf4j:slf4j-simple:2.0.16'
 }

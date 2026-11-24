@@ -3,8 +3,8 @@ application {
 }
 
 dependencies {
-    implementation 'com.ligeroframework:ligero-jpa:0.5.0'
-    implementation 'com.ligeroframework:ligero-devtools:0.5.0'
+    implementation 'com.ligeroframework:ligero-jpa:0.8.0'
+    implementation 'com.ligeroframework:ligero-devtools:0.8.0'
 
     // JPA provider + JDBC driver (you bring these; ligero-jpa only needs the API)
     runtimeOnly 'org.hibernate.orm:hibernate-core:6.6.4.Final'
